@@ -673,6 +673,19 @@ namespace Octokit.Tests.Clients
             }
 
             [Fact]
+            public void TestingTheOrganizationQualifier()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new SearchClient(connection);
+                //get repos where search contains 'github' and org is 'octo'
+                var request = new SearchRepositoriesRequest("github");
+                request.Organization = "octo";
+                client.SearchRepo(request);
+                connection.Received().Get<SearchRepositoryResult>(Arg.Is<Uri>(u => u.ToString() == "search/repositories"),
+                    Arg.Is<Dictionary<string, string>>(d => d["q"] == "github+org:octo"));
+            }
+
+            [Fact]
             public void TestingTheSortParameter()
             {
                 var connection = Substitute.For<IApiConnection>();

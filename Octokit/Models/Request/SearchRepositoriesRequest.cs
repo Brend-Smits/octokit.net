@@ -101,6 +101,12 @@ namespace Octokit
         public string User { get; set; }
 
         /// <summary>
+        /// Limits searches to a specific organization.
+        /// https://help.github.com/articles/searching-repositories#users-organizations-and-repositories
+        /// </summary>
+        public string Organization { get; set; }
+
+        /// <summary>
         /// Filters repositories based on times of creation.
         /// https://help.github.com/articles/searching-repositories#created-and-last-updated
         /// </summary>
@@ -170,6 +176,11 @@ namespace Octokit
             if (User.IsNotBlank())
             {
                 parameters.Add(string.Format(CultureInfo.InvariantCulture, "user:{0}", User));
+            }
+
+            if (Organization.IsNotBlank())
+            {
+                parameters.Add(string.Format(CultureInfo.InvariantCulture, "org:{0}", Organization));
             }
 
             if (Created != null)
